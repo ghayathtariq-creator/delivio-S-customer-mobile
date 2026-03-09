@@ -1,71 +1,191 @@
-# Delivio S Customer Mobile App
+# DEVO-S — All-in-One Delivery Platform
 
-## Overview
-Delivio S is a React Native application designed for enhancing user experience in managing customer interactions efficiently. This comprehensive documentation covers the features, setup, installation, and deployment instructions necessary for contributing to and running the app successfully.
+DEVO-S is a React Native (Expo) mobile application that powers a full delivery ecosystem through **five role-based interfaces** in a single app.
 
-## Features
-- **User Authentication**: Secure login with options for social media integration (Google, Facebook).
-- **Responsive UI**: A mobile-friendly interface with intuitive navigation tailored for various device sizes.
-- **Real-Time Notifications**: Users receive updates about their orders, promotions, and other relevant alerts immediately.
-- **Order Management**: Users can view, track, and manage their orders seamlessly.
-- **In-App Chat**: Communicate with customer support directly through the app.
+---
 
-## Setup Instructions
-1. **Clone the Repository**:
-   ```bash
-   git clone https://github.com/<owner>/delivio-S-customer-mobile.git
-   cd delivio-S-customer-mobile
-   ```
+## 5 Interfaces
 
-2. **Install Node.js**:
-   Ensure you have Node.js (v14 or later) installed. You can download it from [nodejs.org](https://nodejs.org/).
+| # | Interface | Description |
+|---|-----------|-------------|
+| 1 | **Admin Panel** | Manage users, restaurants, orders, analytics and platform settings |
+| 2 | **Support** | View and manage customer support tickets by status |
+| 3 | **Customer** | Browse restaurants & markets, place orders and track them in real time |
+| 4 | **Rider** | Accept deliveries, update status, and view earnings |
+| 5 | **Restaurant & Market** | Manage incoming orders, menu items and store availability |
 
-3. **Install Dependencies**:
-   After cloning the repository, install the required dependencies by running:
-   ```bash
-   npm install
-   ```
+On launch the app shows a **role-selection home screen** — tap any card to enter that interface.
 
-4. **Configure Environment Variables**:
-   Create a `.env` file in the root of the project and add the necessary environment variables based on the `.env.example` file provided.
+---
 
-## Installation Instructions
-1. **Install React Native CLI**:
-   If you haven't installed React Native CLI, run:
-   ```bash
-   npm install -g react-native-cli
-   ```
+## App Identity
 
-2. **Run the Application**:
-   For iOS:
-   ```bash
-   cd ios
-   pod install
-   cd ..
-   react-native run-ios
-   ```
+| Field | Value |
+|-------|-------|
+| App Name | **DEVO-S** |
+| iOS Bundle ID | `com.devos.app` |
+| Android Package | `com.devos.app` |
+| Version | `1.0.0` |
+| iOS Build Number | `1` |
+| Android versionCode | `1` |
 
-   For Android:
-   Make sure to have an Android emulator running or a device connected and run:
-   ```bash
-   react-native run-android
-   ```
+---
 
-## Deployment Instructions
-1. **Build the App**:
-   For production-ready builds, you may need to build the app using the following commands:
-   - For iOS:
-     ```bash
-     cd ios
-     xcodebuild -scheme YourAppName -configuration Release
-     ```
-   - For Android:
-     Generate a signed APK by following the [Android documentation](https://reactnative.dev/docs/signed-apk-android).
+## Tech Stack
 
-2. **Deploy to App Stores**:
-   Follow the respective guidelines for deploying iOS and Android apps to the Apple App Store and Google Play Store.
+- **React Native** (Expo)
+- **TypeScript** — strict mode, path aliases (`@screens/*`, `@components/*`, …)
+- Lightweight **state-based router** (no external nav library required at this stage)
 
-## Conclusion
-This README provides a comprehensive look into the Delivio S Customer Mobile App. For more information or contributions, feel free to open issues or pull requests!
+---
 
-Happy coding!
+## Project Structure
+
+```
+├── App.tsx                        # Root router — maps Screen state to interface
+├── app.json                       # Expo config (name, bundle IDs, splash, icons)
+├── index.js                       # AppRegistry entry point
+└── src/
+    ├── components/
+    │   ├── Header.tsx             # Branded orange header with optional back button
+    │   └── RoleCard.tsx           # Tappable role card used on the home screen
+    ├── context/                   # (future) React context providers
+    ├── navigation/
+    │   └── index.ts               # Screen union type + NavigateFunction
+    ├── screens/
+    │   ├── HomeScreen.tsx         # Role-selection entry screen
+    │   ├── admin/
+    │   │   └── AdminDashboardScreen.tsx
+    │   ├── support/
+    │   │   └── SupportScreen.tsx
+    │   ├── customer/
+    │   │   └── CustomerHomeScreen.tsx
+    │   ├── rider/
+    │   │   └── RiderHomeScreen.tsx
+    │   └── restaurant/
+    │       └── RestaurantScreen.tsx
+    ├── services/                  # (future) API service layer
+    ├── types/
+    │   └── index.ts               # All domain types (User, Order, Rider, Restaurant, …)
+    └── utils/                     # (future) helper functions
+```
+
+---
+
+## Local Development
+
+### Prerequisites
+- Node.js ≥ 16
+- Expo CLI: `npm install -g expo-cli`
+- For iOS: Xcode + CocoaPods
+- For Android: Android Studio + SDK
+
+### Install & Run
+
+```bash
+# Clone the repo
+git clone https://github.com/ghayathtariq-creator/delivio-S-customer-mobile.git
+cd delivio-S-customer-mobile
+
+# Install dependencies
+npm install
+
+# Start Expo dev server
+npx expo start
+
+# Run on iOS simulator
+npm run ios
+
+# Run on Android emulator / device
+npm run android
+```
+
+---
+
+## Deployment to Google Play & Apple App Store
+
+### 1. Build with EAS (recommended)
+
+```bash
+npm install -g eas-cli
+eas login
+eas build:configure
+```
+
+#### Android (Google Play)
+
+```bash
+# Production AAB for Google Play
+eas build --platform android --profile production
+```
+
+Submit to Google Play:
+```bash
+eas submit --platform android
+```
+
+> Make sure you have a **Google Play Developer account** and have created the app in the [Google Play Console](https://play.google.com/console) first.
+
+#### iOS (Apple App Store)
+
+```bash
+# Production IPA for App Store
+eas build --platform ios --profile production
+```
+
+Submit to App Store Connect:
+```bash
+eas submit --platform ios
+```
+
+> Requires an **Apple Developer Program membership** ($99/year) and an app record in [App Store Connect](https://appstoreconnect.apple.com).
+
+### 2. Manual builds (without EAS)
+
+#### Android APK / AAB
+
+```bash
+cd android
+./gradlew bundleRelease          # AAB for Play Store
+./gradlew assembleRelease        # APK for direct install
+```
+
+Sign the build using your keystore and upload to the Google Play Console.
+
+#### iOS IPA
+
+```bash
+cd ios && pod install && cd ..
+```
+
+Open `ios/DEVOS.xcworkspace` in Xcode → set your **Team** and **Bundle Identifier** (`com.devos.app`) → **Product → Archive** → upload via Xcode Organizer.
+
+### `eas.json` example
+
+```json
+{
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "production": {
+      "android": { "buildType": "app-bundle" },
+      "ios": { "credentialsSource": "remote" }
+    }
+  }
+}
+```
+
+---
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/my-feature`)
+3. Commit your changes
+4. Open a Pull Request
+
+---
+
+*Happy coding! 🚀*

@@ -1,1 +1,43 @@
-{"expo":{"name":"Delivio Customer","slug":"delivio-customer","version":"1.0.0","orientation":"portrait","icon":"./assets/icon.png","userInterfaceStyle":"light","splash":{"image":"./assets/splash.png","resizeMode":"contain","backgroundColor":"#ffffff"},"updates":{"fallbackToCacheTimeout":0},"assetBundlePatterns":["**/*"],"ios":{"supportsTabletMode":true,"bundleIdentifier":"com.delivio.customer"},"android":{"adaptiveIcon":{"foregroundImage":"./assets/adaptive-icon.png","backgroundColor":"#ffffff"},"package":"com.delivio.customer"},"web":{"favicon":"./assets/favicon.png"},"plugins":[["expo-location",{"locationAlwaysAndWhenInUsePermission":"Allow Delivio to access your location for real-time order tracking."}]]}}
+{
+  "expo": {
+    "name": "DEVO-S",
+    "slug": "devo-s",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#FF6B00"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTabletMode": true,
+      "bundleIdentifier": "com.devos.app",
+      "buildNumber": "1"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#FF6B00"
+      },
+      "package": "com.devos.app",
+      "versionCode": 1
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow DEVO-S to access your location for real-time order tracking."
+        }
+      ]
+    ]
+  }
+}
