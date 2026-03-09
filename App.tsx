@@ -1,42 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { StatusBar } from 'react-native';
+import { Screen } from './src/navigation';
 import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+  HomeScreen,
+  AdminDashboardScreen,
+  SupportScreen,
+  CustomerHomeScreen,
+  RiderHomeScreen,
+  RestaurantScreen,
+} from './src/screens';
 
 const App: React.FC = () => {
+  const [currentScreen, setCurrentScreen] = useState<Screen>('home');
+
+  const navigate = (screen: Screen) => setCurrentScreen(screen);
+
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.content}>
-        <Text style={styles.title}>Delivio Customer</Text>
-        <Text style={styles.subtitle}>Your delivery, simplified.</Text>
-      </View>
-    </SafeAreaView>
+    <>
+      <StatusBar barStyle="light-content" backgroundColor="#FF6B00" />
+      {currentScreen === 'home' && <HomeScreen navigate={navigate} />}
+      {currentScreen === 'admin' && <AdminDashboardScreen navigate={navigate} />}
+      {currentScreen === 'support' && <SupportScreen navigate={navigate} />}
+      {currentScreen === 'customer' && <CustomerHomeScreen navigate={navigate} />}
+      {currentScreen === 'rider' && <RiderHomeScreen navigate={navigate} />}
+      {currentScreen === 'restaurant' && <RestaurantScreen navigate={navigate} />}
+    </>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#ffffff',
-  },
-  content: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#1a1a1a',
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#555555',
-    marginTop: 8,
-  },
-});
 
 export default App;
